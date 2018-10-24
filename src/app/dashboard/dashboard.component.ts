@@ -8,6 +8,7 @@ import { DashboardService } from './dashboard.service';
 })
 export class DashboardComponent implements OnInit {
   searches: any[];
+  firstNames: any[];
   constructor(private dashboardService: DashboardService) {
     this.searches = [];
   }
@@ -16,6 +17,13 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getSearchHistory().subscribe( (history: any) => {
       this.searches = history;
     });
+  }
+
+  getFirstNames() {
+    this.dashboardService.getFirstNames().subscribe( (firstNames: any) => {
+      this.firstNames = firstNames;
+    });
+    console.log(this.firstNames);
   }
 
   ngOnInit() {
