@@ -6,12 +6,15 @@ import { AngularFireDatabase } from '@angular/fire/database';
 export class DashboardService {
   searchHistoryRef: any;
   searchFirstNamesRef: any;
+  searchLastNamesRef: any;
+
   constructor(
     private loginService: LoginService,
     private db: AngularFireDatabase,
     ) {
     this.searchHistoryRef = this.db.list(`currentSession/${this.loginService.userUid}/searches`);
     this.searchFirstNamesRef = this.db.list(`firstNames`);
+    this.searchLastNamesRef = this.db.list(`lastNames`);
   }
 
   getSearchHistory() {
@@ -19,6 +22,10 @@ export class DashboardService {
   }
 
   getFirstNames() {
-    return this.searchFirstNamesRef.valueChanges();
+    return this.searchFirstNamesRef.snapshotChanges();
+  }
+
+  getLastNames() {
+    return this.searchLastNamesRef.snapshotChanges();
   }
 }

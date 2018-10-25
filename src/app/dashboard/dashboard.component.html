@@ -1,5 +1,28 @@
 <p>
   dashboard works!
 </p>
-<button (click)="getFirstNames()">Get Names</button>
-{{ firstNames }}
+
+<form (ngSubmit)="searchFullName()">
+  <div class="form-group">
+    <label for="firstNameToSearch">First Name</label>
+    <input type="text" class="form-control" id="firstNameToSearch" name="firstNameToSearch" required [(ngModel)]=firstNameToSearch>
+  </div>
+
+  <div class="form-group">
+    <label for="lastNameToSearch">Last Name</label>
+    <input type="text" class="form-control" id="lastNameToSearch" name="lastNameToSearch" required [(ngModel)]=lastNameToSearch>
+  </div>
+
+  <button type="submit" class="btn btn-success">Search Name</button>
+</form>
+
+<br>
+
+<div *ngIf="validFirstName && validLastName">
+  <p>{{ validFirstName }} {{ validLastName }} is a valid name</p>
+</div>
+<div *ngIf="(!validFirstName || !validLastName) && firstNameToSearch && lastNameToSearch && init">
+  <button>Add New Name</button>
+</div>
+
+
