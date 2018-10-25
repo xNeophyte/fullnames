@@ -28,4 +28,16 @@ export class DashboardService {
   getLastNames() {
     return this.searchLastNamesRef.snapshotChanges();
   }
+
+  addFirstName(name: string) {
+    this.db.object(`/firstNames/${name}`).set(true);
+  }
+
+  addLastName(name: string) {
+    this.db.object(`/lastNames/${name}`).set(true);
+  }
+
+  addToSearchHistory(name: string) {
+    this.searchHistoryRef.push(name);
+  }
 }

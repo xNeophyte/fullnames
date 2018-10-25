@@ -1,5 +1,5 @@
 <p>
-  dashboard works!
+  Name Dashboard
 </p>
 
 <form (ngSubmit)="searchFullName()">
@@ -22,7 +22,5 @@
   <p>{{ validFirstName }} {{ validLastName }} is a valid name</p>
 </div>
 <div *ngIf="(!validFirstName || !validLastName) && firstNameToSearch && lastNameToSearch && init">
-  <button>Add New Name</button>
+  <button (click)="addNewNames()">Add New Name</button>
 </div>
-
-

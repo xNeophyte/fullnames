@@ -7,7 +7,6 @@ import { DashboardService } from './dashboard.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  searches: any[];
   firstNames: any[];
   lastNames: any[];
   firstNameToSearch: string;
@@ -17,8 +16,6 @@ export class DashboardComponent implements OnInit {
   init: boolean;
 
   constructor(private dashboardService: DashboardService) {
-    this.searches = [];
-
     this.dashboardService.getFirstNames().subscribe( (firstNameSnapshots: any) => {
       this.firstNames = firstNameSnapshots.map(snapshot => snapshot.key);
     });
@@ -30,22 +27,16 @@ export class DashboardComponent implements OnInit {
     this.init = false;
   }
 
-  searchHistory() {
-    this.dashboardService.getSearchHistory().subscribe( (history: any) => {
-      this.searches = history;
-    });
-  }
-
   searchFirstName(): boolean {
-    return this.firstNames.find(name => name === this.firstNameToSearch.toLowerCase);
+    return this.firstNames.find(name => name === this.firstNameToSearch.toLowerCase());
   }
 
   searchLastName(): boolean {
-    return this.lastNames.find(name => name === this.lastNameToSearch.toLowerCase);
+    return this.lastNames.find(name => name === this.lastNameToSearch.toLowerCase());
   }
 
   searchFullName() {
-    console.log(this.firstNameToSearch + ' ' + this.lastNameToSearch );
+    console.log(`${this.firstNameToSearch} ${this.lastNameToSearch}`);
     if (this.searchFirstName()) {
       this.validFirstName = this.firstNameToSearch;
       console.log('FIRST NAME VALID');
@@ -62,6 +53,19 @@ export class DashboardComponent implements OnInit {
       console.log('LAST NAME NOT VALID');
     }
     this.init = true;
+
+    this.dashboardService.addToSearchHistory(`${this.firstNameToSearch} ${this.lastNameToSearch}`);
+  }
+
+  addNewNames() {
+    if (!this.searchFirstName()) {
+      this.dashboardService.addFirstName(this.firstNameToSearch.toLocaleLowerCase());
+      console.log(`ADDED FIRST NAME ${this.firstNameToSearch} TO DATABASE`);
+    }
+    if (!this.searchLastName()) {
+      this.dashboardService.addLastName(this.lastNameToSearch.toLocaleLowerCase());
+      console.log(`ADDED LAST NAME ${this.lastNameToSearch} TO DATABASE`);
+    }
   }
 
   ngOnInit() {
